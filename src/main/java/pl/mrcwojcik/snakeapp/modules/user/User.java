@@ -1,8 +1,11 @@
 package pl.mrcwojcik.snakeapp.modules.user;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -17,6 +20,17 @@ public class User {
 
     @NotEmpty(message = "Password cannot be empty")
     private String password;
+
+    @Column(name = "role", nullable = false, insertable = false)
+    @NotNull
+    @ColumnDefault(value = "'ROLE_USER'")
+    private String role;
+
+    @Column(name = "enabled", nullable = false, insertable = false)
+    @NotNull
+    @ColumnDefault(value = "1")
+    private boolean enabled;
+
 
     public User() {
     }

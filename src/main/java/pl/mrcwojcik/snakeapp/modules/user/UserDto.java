@@ -10,6 +10,9 @@ public class UserDto {
 
     @NotEmpty(message = "Password cannot be empty")
     private String password;
+    private String role;
+    private boolean enabled;
+
 
     public UserDto(String username, String password) {
         this.email = username;
