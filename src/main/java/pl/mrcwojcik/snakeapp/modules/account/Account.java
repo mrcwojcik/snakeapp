@@ -1,9 +1,11 @@
 package pl.mrcwojcik.snakeapp.modules.account;
 
 import com.sun.istack.NotNull;
+import pl.mrcwojcik.snakeapp.modules.enums.AccountType;
 import pl.mrcwojcik.snakeapp.modules.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
@@ -19,13 +21,14 @@ public class Account {
     private String accountName;
 
     @NotNull
+    @DecimalMin("0")
     private BigDecimal startBalance;
+
+    private BigDecimal actualBalance;
+    private AccountType accountType;
 
     @ManyToOne
     private User user;
-
-    public Account() {
-    }
 
     public long getId() {
         return id;
@@ -49,6 +52,22 @@ public class Account {
 
     public void setStartBalance(BigDecimal startBalance) {
         this.startBalance = startBalance;
+    }
+
+    public BigDecimal getActualBalance() {
+        return actualBalance;
+    }
+
+    public void setActualBalance(BigDecimal actualBalance) {
+        this.actualBalance = actualBalance;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
     public User getUser() {
