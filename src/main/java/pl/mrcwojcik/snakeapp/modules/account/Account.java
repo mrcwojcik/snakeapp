@@ -1,5 +1,6 @@
 package pl.mrcwojcik.snakeapp.modules.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import pl.mrcwojcik.snakeapp.modules.enums.AccountType;
 import pl.mrcwojcik.snakeapp.modules.user.User;
@@ -25,9 +26,12 @@ public class Account {
     private BigDecimal startBalance;
 
     private BigDecimal actualBalance;
+
+    @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = "accounts", allowSetters = true)
     private User user;
 
     public long getId() {
@@ -76,5 +80,16 @@ public class Account {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", accountName='" + accountName + '\'' +
+                ", startBalance=" + startBalance +
+                ", actualBalance=" + actualBalance +
+                ", accountType=" + accountType +
+                '}';
     }
 }

@@ -19,10 +19,38 @@ public class AccountDto {
     @NotNull
     @DecimalMin("0")
     private BigDecimal startBalance;
-
-    private BigDecimal actualBalance;
     private AccountType accountType;
 
-    private User user;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public BigDecimal getStartBalance() {
+        return startBalance;
+    }
+
+    public void setStartBalance(BigDecimal startBalance) {
+        this.startBalance = startBalance;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
 
 }

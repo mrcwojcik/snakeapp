@@ -1,5 +1,6 @@
 package pl.mrcwojcik.snakeapp.modules.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.ColumnDefault;
 import pl.mrcwojcik.snakeapp.modules.account.Account;
 
@@ -7,7 +8,10 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -24,18 +28,16 @@ public class User {
     private String password;
 
     @Column(name = "role", nullable = false, insertable = false)
-    @NotNull
     @ColumnDefault(value = "'ROLE_USER'")
     private String role;
 
     @Column(name = "enabled", nullable = false, insertable = false)
-    @NotNull
     @ColumnDefault(value = "1")
     private boolean enabled;
 
-    @OneToMany (mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Account> accounts;
-
+    @OneToMany (mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnoreProperties(value = "user", allowSetters = true)
+    private Set<Account> accounts = new HashSet<>();
 
     public User() {
     }
@@ -45,13 +47,18 @@ public class User {
         this.password = password;
     }
 
-    public User(long id, String email, @NotEmpty(message = "Password cannot be empty") String password, @NotNull String role, @NotNull boolean enabled, List<Account> accounts) {
+    public User(long id, String email, @NotEmpty(message = "Password cannot be empty") String password, @NotNull String role, @NotNull boolean enabled, Set<Account> accounts) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
         this.enabled = enabled;
         this.accounts = accounts;
+    }
+
+    public void addAccount(Account account){
+        accounts.add(account);
+        account.setUser(this);
     }
 
     public long getId() {
@@ -94,11 +101,11 @@ public class User {
         this.enabled = enabled;
     }
 
-    public List<Account> getAccounts() {
+    public Set<Account> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(List<Account> accounts) {
+    public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
     }
 }
