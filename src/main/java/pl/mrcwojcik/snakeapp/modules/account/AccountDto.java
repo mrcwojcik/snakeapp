@@ -1,5 +1,7 @@
 package pl.mrcwojcik.snakeapp.modules.account;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sun.istack.NotNull;
 import pl.mrcwojcik.snakeapp.modules.enums.AccountType;
 import pl.mrcwojcik.snakeapp.modules.user.User;
@@ -9,6 +11,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountDto {
 
     private long id;
@@ -20,6 +23,11 @@ public class AccountDto {
     @DecimalMin("0")
     private BigDecimal startBalance;
     private AccountType accountType;
+
+    private BigDecimal actualBalance;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
 
     public long getId() {
         return id;
@@ -53,4 +61,11 @@ public class AccountDto {
         this.accountType = accountType;
     }
 
+    public BigDecimal getActualBalance() {
+        return actualBalance;
+    }
+
+    public void setActualBalance(BigDecimal actualBalance) {
+        this.actualBalance = actualBalance;
+    }
 }

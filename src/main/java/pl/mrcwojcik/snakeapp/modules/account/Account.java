@@ -30,7 +30,7 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnoreProperties(value = "accounts", allowSetters = true)
     private User user;
 
