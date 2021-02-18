@@ -34,13 +34,13 @@ public class AccountController {
         return accountService.showAccounts(tokenDecoder.decodeToken(token));
     }
 
-    @GetMapping("/account/{id}")
-    public AccountDto singleAccount(@RequestParam long accountId){
+    @GetMapping("/account/{accountId}")
+    public AccountDto singleAccount(@PathVariable long accountId){
         return accountService.getAccount(accountId);
     }
 
     @GetMapping("/account/{id}/edit")
-    public AccountDto editAccountGet(@RequestParam long accountId){
+    public AccountDto editAccountGet(@PathVariable long accountId){
         return accountService.getAccount(accountId);
     }
 
@@ -50,7 +50,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/account/{id}/delete")
-    public void deleteAccount(@RequestParam long accountId){
+    public void deleteAccount(@PathVariable long accountId){
         accountService.deleteAccount(accountId);
     }
 

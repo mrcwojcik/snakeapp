@@ -13,6 +13,32 @@ import javax.servlet.http.HttpServletResponse;
 public class JwtRequestInterceptor extends HandlerInterceptorAdapter {
 
     private static final Logger logger = LogManager.getLogger(JwtRequestInterceptor.class);
+    private final TokenDecoder tokenDecoder;
 
+    public JwtRequestInterceptor(TokenDecoder tokenDecoder) {
+        this.tokenDecoder = tokenDecoder;
+    }
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        logger.debug("prehandling request");
+        String token = tokenDecoder.resolveToken(request);
+
+        try {
+            tokenDecoder.checkToken(token);
+        } catch (Exception e){
+            logger.error(e);
+        }
+
+        if (tokenDecoder.isJwtTokenValid(token)) {
+            Long userId = tokenDecoder.decodeToken(token);
+            logger.info("Dotarłem tu. ID usera: " + userId);
+            return true;
+        } else {
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token expires");
+            logger.error("JWT Token expires.");
+            return false;
+        }
+    }
 
 }
