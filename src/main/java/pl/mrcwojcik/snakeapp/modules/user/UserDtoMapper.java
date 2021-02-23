@@ -1,10 +1,13 @@
 package pl.mrcwojcik.snakeapp.modules.user;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserDtoMapper {
+
+    public PasswordEncoder passwordEncoder;
 
     public UserDto mapUserToDto(User user){
         return buildUserDto(user);
@@ -14,12 +17,5 @@ public class UserDtoMapper {
         return new UserDto(user.getEmail(), user.getPassword());
     }
 
-    public User mapDtoToUser(UserDto userDto){
-        return buildUser(userDto);
-    }
-
-    public User buildUser(UserDto userDto){
-        return new User(userDto.getEmail(), userDto.getPassword());
-    }
 
 }

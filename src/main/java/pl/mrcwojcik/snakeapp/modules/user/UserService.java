@@ -2,6 +2,7 @@ package pl.mrcwojcik.snakeapp.modules.user;
 
 public interface UserService {
 
-    UserDto save(UserDto userDto);
+    User findUserByEmail(String email);
+    User findUserById(long id);
 
 }
