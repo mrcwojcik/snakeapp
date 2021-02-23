@@ -2,6 +2,7 @@ package pl.mrcwojcik.snakeapp.modules.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
+import pl.mrcwojcik.snakeapp.modules.bill.Bill;
 import pl.mrcwojcik.snakeapp.modules.enums.AccountType;
 import pl.mrcwojcik.snakeapp.modules.user.User;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "accounts")
@@ -33,6 +35,9 @@ public class Account {
     @ManyToOne
     @JsonIgnoreProperties(value = "accounts", allowSetters = true)
     private User user;
+
+    @OneToMany (mappedBy = "account", cascade = CascadeType.REMOVE)
+    private List<Bill> bills;
 
     public long getId() {
         return id;
